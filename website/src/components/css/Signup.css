@@ -1,0 +1,9 @@
+#signup-card {
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.brand {
+    color: var(--bs-secondary) !important;
+    text-decoration: none;
+}

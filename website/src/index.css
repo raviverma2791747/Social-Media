@@ -1,0 +1,48 @@
+:root {
+    --bs-primary : #FF2525 !important;
+    --bs-secondary : #ffffff !important;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--bs-secondary) !important;
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.text-secondary {
+    color: var(--bs-secondary) !important;
+}
+
+.btn-primary {
+    color: var(--bs-secondary) !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary {
+    color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    color: var(--bs-secondary) !important;
+    background-color: var(--bs-primary) !important;
+}
+
+a {
+    color: var(--bs-primary) !important;
+}
+
+.navbar-brand {
+    color: var(--bs-secondary) !important;
+}
+
+.nav-link {
+    color: var(--bs-secondary) !important;
+}

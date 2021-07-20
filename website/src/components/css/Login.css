@@ -1,0 +1,9 @@
+#login-card {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.brand {
+    color: var(--bs-secondary) !important;
+    text-decoration: none;
+}
