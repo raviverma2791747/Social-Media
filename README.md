@@ -37,6 +37,10 @@ accepts POST request with json data
 }
 ```
 
+## IsAuthenticated user
+localhost/api/account/isauthenticated
+accepts GET request with no data
+
 ## Logout user
 localhost/api/account/logout
 accepts POST request with no json data
