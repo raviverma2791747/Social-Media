@@ -1,5 +1,12 @@
 # A social networking site made using React,Django and bootstrap
 
+## Instructions to run
+1. open terminal in root directory
+2. run command cd website
+3. run command npm run build
+4. run command cd ..
+5. run command python manage.py runserver
+
 ## API
 
 ## Register user
