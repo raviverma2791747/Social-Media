@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import '../components/css/Signup.css'
-import {Link,useHistory} from "react-router-dom";
-import {accountRegister} from '../api/Api'
+import { Link, useHistory, Redirect } from "react-router-dom";
+import { accountIsAuthenticated, accountRegister } from '../api/Api'
+import Loading from '../components/Loading'
 
 function Signup() {
     const history = useHistory();
+    const [authenticate, setAuthenticate] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -35,6 +39,14 @@ function Signup() {
         setRpassword(e.target.value);
     }
 
+    accountIsAuthenticated().then((data) => {
+        if (data["status"] === "success") {
+            console.log(data);
+            setAuthenticate(true)
+        }
+        setLoading(false);
+    })
+
     const submit = (e) => {
         e.preventDefault();
         let data = {
@@ -46,17 +58,25 @@ function Signup() {
             re_password: rpassword
         };
 
-        accountRegister(data).then((data)=>{
+        accountRegister(data).then((data) => {
             console.log(data);
-            if(data['status'] === 'success'){
+            if (data['status'] === 'success') {
                 history.push('/home')
+                setFirstName('');
+                setLastName('');
+                setUsername('');
+                setEmail('');
+                setPassword('');
+                setRpassword('');
+
             }
+            setMessage(data["message"]);
         })
     }
 
     return (
-        <div className="container-fluid vh-100">
-            <div className="row vh-100">
+        <React.Fragment>
+            {authenticate ? (<Redirect to="/home" />) : (loading ? (<Loading />) : (<div className="container-fluid vh-100"><div className="row vh-100">
                 <div className="col-md bg-primary d-flex flex-column justify-content-center align-items-center">
                     <div>
                         <h1 className="fw-bold text-secondary"><Link className="brand" to="/">Social Media</Link></h1>
@@ -85,8 +105,11 @@ function Signup() {
                                 <div className="mb-3">
                                     <input className="form-control text-center" name="rpassword" type="password" placeholder="Enter the password" onChange={onChangeRpassword} />
                                 </div>
+                                <div className="mb-3">
+                                    {message}
+                                </div>
                                 <div className="mb-3 text-center">
-                                    <input className="btn btn-primary" name="submit" type="submit" placeholder="Enter the password"/>
+                                    <input className="btn btn-primary" name="submit" type="submit" placeholder="Enter the password" />
                                 </div>
                                 <div className="mb-3">
                                     <Link className="form-text" to="/login">Already registered click here to login</Link>
@@ -96,7 +119,8 @@ function Signup() {
                     </div>
                 </div>
             </div>
-        </div>
+            </div>))}
+        </React.Fragment>
     )
 }
 

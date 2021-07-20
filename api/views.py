@@ -26,9 +26,9 @@ class CheckAuthenticatedView(APIView):
         isAuthenticated = request.user.is_authenticated
 
         if isAuthenticated:
-            return Response({'status': 'success'})
+            return Response({'status': 'success', "message" : "User is authenticated!"})
         else:
-            return Response({'status': 'failed'})
+            return Response({'status': 'failed' , "message" : "User failed authentication!"})
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -44,24 +44,27 @@ class RegisterView(APIView):
             first_name = data['first_name']
             last_name = data['last_name']
             email = data['email']
+        except:
+            return Response({"status" : "failed" , "message" : "One or more input field is missing"})
 
+        try:
             if password == re_password:
                 if User.objects.filter(username=username).exists():
-                    return Response({'error': 'Username already exists'})
+                    return Response({ "status" : "failed" ,'message': 'Username already exists'})
                 else:
                     if len(password) < 8:
-                        return Response({'error': 'Password must be atleast 8 characters'})
+                        return Response({  "status" : "failed" , 'message': 'Password must be atleast 8 characters'})
                     else:
                         user = User.objects.create_user(username=username, password=password)
                         user.save()
                         user = User.objects.get(id=user.id)
                         user_profile = UserProfile(user=user, first_name=first_name, last_name=last_name, email=email)
                         user_profile.save()
-                        return Response({'status': 'success'})
+                        return Response({'status': 'success', "message" : "User created successfully!"})
             else:
-                return Response({'error': 'Passwords do not match'})
+                return Response({ "status" : "failed" , 'message': 'Passwords do not match'})
         except:
-            return ({'status' : "error"})
+            return ({'status' : "failed" , "message" : "Something went wrong on our side!"})
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -70,17 +73,21 @@ class LoginView(APIView):
 
     def post(self, request, format=None):
         data = self.request.data
+        try:
+           username = data['username']
+           password = data['password']
+        except:
+            return Response({"status" : "failed" ,  "message" : "Username or Password cannot be empty!"})
 
-        username = data['username']
-        password = data['password']
-
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
-            auth.login(request, user)
-            return Response({'status': 'success'})
-        else:
-            return Response({'status': 'failed'})
+        try:
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return Response({'status': 'success' , "message" : "User Logged in successfully!" })
+            else:
+                return Response({'status': 'failed' ,  "message" : "Invalid Username or Password!"})
+        except:
+            return Response({"status" : "failed" , "message" : "Something went wrong on our side!"})
 
 
 class LogoutView(APIView):
@@ -97,7 +104,7 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
-        return Response({'success': 'CSRF Cookie Set'})
+        return Response({'status': 'success' , "message" : "CSRF Cookie set"})
 
 
 class DeleteAccountView(APIView):
@@ -105,6 +112,6 @@ class DeleteAccountView(APIView):
         user = self.request.user
         try:
             user = User.objects.filter(id=user.id).delete()
-            return  Response({'status': 'success' })
+            return  Response({'status': 'success' , "message" : "Account deleted successfully!"})
         except:
-            return Response({'status' : 'error'})
+            return Response({'status' : 'failed' , "message" : "Something went wrong!"})

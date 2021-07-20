@@ -28,7 +28,7 @@ export function getCSRFToken() {
     return getCookie('csrftoken');
 }
 
-export function login(data) {
+export function accountLogin(data) {
     let headers = {
         'X-CSRFToken': getCSRFToken(),
         'Content-Type': 'application/json'
@@ -39,6 +39,7 @@ export function login(data) {
         body: JSON.stringify(data),
         headers: headers
     }).then((response) => {
+        fetchCSRFToken();
         return response.json();
     })
 }
