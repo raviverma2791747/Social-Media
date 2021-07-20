@@ -37,7 +37,7 @@ accepts POST request with json data
 localhost/api/account/logout
 accepts POST request with no json data
 
-##Delete user
+## Delete user
 localhost/api/account/delete
 accepts DELETE request with no jsond data
 
