@@ -11,11 +11,11 @@
 Send all POST request with Headers
 X-CSRFToken : csrfcookie value
 
-## GetCSRFToken
+### GetCSRFToken
 localhost/api/getcsrf
 accepts GET request with no data
 
-## Register user
+### Register user
 localhost/api/account/register
 accepts POST request with json data
 ```
@@ -39,14 +39,14 @@ accepts POST request with json data
 }
 ```
 
-## IsAuthenticated user
+### IsAuthenticated user
 localhost/api/account/isauthenticated
 accepts GET request with no data
 
-## Logout user
+### Logout user
 localhost/api/account/logout
 accepts POST request with no json data
 
-## Delete user
+### Delete user
 localhost/api/account/delete
 accepts DELETE request with no jsond data
