@@ -8,6 +8,8 @@
 5. run command python manage.py runserver
 
 ## API
+Send all POST request with Headers
+X-CSRFToken : csrfcookie value
 
 ## GetCSRFToken
 localhost/api/getcsrf
