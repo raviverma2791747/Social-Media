@@ -9,6 +9,10 @@
 
 ## API
 
+## GetCSRFToken
+localhost/api/getcsrf
+accepts GET request with no data
+
 ## Register user
 localhost/api/account/register
 accepts POST request with json data
