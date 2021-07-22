@@ -50,3 +50,16 @@ accepts POST request with no json data
 ### Delete user
 localhost/api/account/delete
 accepts DELETE request with no jsond data
+
+###Current User
+localhost/api/profile/current_user
+accepts GET request
+```
+{
+ 'status' : 'success',
+ 'message' : '',
+ 'data' : {
+   'username' : 'myusername'
+ }
+}
+```
