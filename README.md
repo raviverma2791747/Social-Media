@@ -51,7 +51,7 @@ accepts POST request with no json data
 localhost/api/account/delete
 accepts DELETE request with no jsond data
 
-###Current User
+### Current User
 localhost/api/profile/current_user
 accepts GET request
 ```
