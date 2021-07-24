@@ -66,4 +66,4 @@ accepts GET request
 
 | API | Types | Response |
 | --- | ----- | -------- |
- 
+|/api/account/register | POST | -- |
