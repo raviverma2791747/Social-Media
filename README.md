@@ -63,3 +63,7 @@ accepts GET request
  }
 }
 ```
+
+| API | Types | Response |
+| --- | ----- | -------- |
+ 
