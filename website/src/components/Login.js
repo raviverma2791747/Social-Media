@@ -1,22 +1,21 @@
 import '../components/css/Login.css'
-import React, { useState } from 'react'
+import React from 'react'
 import Loading from '../components/Loading'
-import { accountLogin, accountIsAuthenticated } from '../api/Api'
+import { accountLogin, accountIsAuthenticated, profileCurrentUser } from '../api/Api'
 import {
     useHistory,
     Link,
     Redirect
 } from "react-router-dom";
-
-
+import { userContext } from '../App';
 
 function Login(props) {
+    const user = React.useContext(userContext);
     const history = useHistory();
-    const [authenticate, setAuthenticate] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [loading, setLoading] = React.useState(true);
+    const [message, setMessage] = React.useState('');
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
 
     const onChangeUsername = (e) => {
         setUsername(e.target.value);
@@ -26,6 +25,12 @@ function Login(props) {
         setPassword(e.target.value);
     }
 
+    React.useEffect(()=>{
+        if(!user.authenticate){
+            setLoading(false);
+        }
+    },[]);
+
     const submit = (e) => {
         e.preventDefault();
         let data = {
@@ -33,25 +38,23 @@ function Login(props) {
             password: password
         }
         accountLogin(data).then((data) => {
-            if (data['status'] == 'success') {
-                history.push('/home');
+            if (data['status'] === 'success') {
+                profileCurrentUser().then((data) => {
+                    if (data['status'] === 'success') {
+                        user.setUsername(data['data']['username']);
+                    }
+                });
+                user.setAuthenticate(true);
             } else {
                 setMessage(data['message']);
             }
         });
     }
 
-    accountIsAuthenticated().then((data) => {
-        if (data["status"] === "success") {
-            setAuthenticate(true);
-        }
-        setLoading(false);
-    })
-
     return (
         <React.Fragment>
             {
-                authenticate ? (<Redirect to="/home" />) : (loading ? (<Loading />) :
+                user.authenticate ? (<Redirect to='/home' />) : (loading ? (<Loading />) :
                     (<div className="container-fluid vh-100">
                         <div className="row vh-100">
                             <div className="col-md bg-primary d-flex flex-column justify-content-center align-items-center">
@@ -84,8 +87,7 @@ function Login(props) {
                                 </div>
                             </div>
                         </div>
-                    </div>))
-            }
+                    </div>))}
         </React.Fragment>
     )
 }

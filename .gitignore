@@ -8,6 +8,12 @@ social_media/__pycache__/
 api/migrations/
 backend/migrations/
 social_media/migrations/
+media/
+website/.vs/
+API.txt
+
+
+db.sqlite3
 
 venv/
 

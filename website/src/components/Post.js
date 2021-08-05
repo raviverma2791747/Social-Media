@@ -1,19 +1,98 @@
 import React from 'react'
-import post_img from "../post.png";
+import Spinner from '../components/ui/Spinner'
+import Date from '../components/ui/Date'
+import { FaEllipsisH, FaRegThumbsUp, FaRegCommentAlt, FaRegShareSquare, FaRegEdit, FaRegTrashAlt, FaLink } from "react-icons/fa";
+import '../components/css/Post.css'
+import { Link } from "react-router-dom";
+import Like from '../components/ui/Like'
+import AllComment from '../components/AllComment'
+import { postDelete } from '../api/Api';
+import CreatePost from './CreatePost';
 
-function Post() {
+function Post({ loading, data }) {
+    const [showComments, setShowComments] = React.useState(false);
+    const [deleted, setDeleted] = React.useState(false);
+    const [edit, setEdit] = React.useState(false);
+
+    const handleComment = () => {
+        if (showComments) {
+            setShowComments(false);
+        } else {
+            setShowComments(true);
+        }
+
+    }
+
+    const deletePost = () => {
+        postDelete({ 'post_id': data['id'] }).then((data) => {
+            if (data['status'] === 'success') {
+                setDeleted(true);
+                console.log('ok')
+            }
+        })
+    }
+
+    const handleEdit = () => {
+        setEdit(true);
+    }
+
     return (
-        <div className="card shadow">
-             <img src={post_img} className="card-img-bottom p-2" alt="..." />
-            <div className="card-body">
-                <div className="d-flex flex-row">
-                    <div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                    </svg></div>
-                </div>
-            </div>
-        </div>
+        <React.Fragment>
+            {deleted ? '' : (edit ? <CreatePost /> : (<div className="card shadow mt-2">
+                {
+                    loading ? (<Spinner />) :
+                        (<React.Fragment>
+                            <div className="card-header d-flex">
+                                <div className="d-flex flex-grow-1">
+                                    <img src={data['profile_img']} className="rounded-circle w-5 post-profile-img" />
+                                    <div className="d-flex flex-column">
+                                        <span>{data['name']}</span>
+                                        <Link to="">{data['username']}</Link>
+                                        <span><Date datetime={data['created']} /></span>
+                                    </div>
+                                </div>
+                                <div className="dropdown">
+                                    <button className="btn" data-bs-toggle="dropdown">
+                                        <FaEllipsisH />
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        <li><button className="dropdown-item"><FaLink /> Copy Link</button></li>
+                                        {data['owner'] ? (<React.Fragment><li><button className="dropdown-item" onClick={handleEdit}><FaRegEdit /> Edit Post</button></li>
+                                            <li><button className="dropdown-item" onClick={deletePost}><FaRegTrashAlt /> Delete Post</button></li></React.Fragment>) : ''}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="card-body">
+                                <p>
+                                    {
+                                        loading ? '' : data['content']
+                                    }
+                                </p>
+                                {data['type'] == 'image' ? (<div className="text-center"><img src={data['image']} className="img-fluid" /></div>) : ''
+                                }
+                                {
+                                    data['type'] == 'video' ? (<div className="ratio ratio-4x3"><video src={data['video']} controls></video></div>) : ''
+                                }
+                            </div>
+                            <div className="card-footer d-flex flex-column">
+                                <div className="d-flex justify-content-between">
+                                    <Like liked={data['current_user_liked']} post_id={data['id']} />
+                                    <button className="btn btn-lg" onClick={handleComment} ><FaRegCommentAlt /> Comment</button>
+                                    <button className="btn btn-lg"><FaRegShareSquare /> Share</button>
+                                </div>
+                                {showComments ? <AllComment post_id={data['id']} /> : ''}
+                            </div>
+                        </React.Fragment>)
+                }
+            </div>))
+            }
+        </React.Fragment>
     )
+}
+
+Post.defaultProps = {
+    'loading': true,
+    'data': {}
 }
 
 export default Post
