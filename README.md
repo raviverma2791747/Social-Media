@@ -1,4 +1,4 @@
-# A social networking site made using React,Django and bootstrap
+# A social networking site made using React,Django and Bootstrap
 
 ## Instructions to run
 1. open terminal in root directory
