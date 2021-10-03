@@ -3,9 +3,16 @@
 ## Instructions to run
 1. open terminal in root directory
 2. run command cd website
-3. run command npm run build
-4. run command cd ..
-5. run command python manage.py runserver
+4. run command npm run build
+5. run command cd ..
+6. run command python manage.py runserver
+
+```
+cd website
+npm run build
+cd ..
+python manage.py runserver
+```
 
 ## API
 Send all POST request with Headers
