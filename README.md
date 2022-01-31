@@ -74,3 +74,5 @@ accepts GET request
 | API | Types | Response |
 | --- | ----- | -------- |
 |/api/account/register | POST | -- |
+
+Made with ❤️ using React, Django and Bootstrap
