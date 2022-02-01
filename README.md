@@ -33,7 +33,7 @@
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
   <a href="#man_office_worker-contributing">Contributing</a> &#xa0; | &#xa0;
-  <a href="https://github.com/muskaan712" target="_blank">Author</a>
+  <a href="https://github.com/raviverma2791747" target="_blank">Author</a>
 </p>
 
 <br>
